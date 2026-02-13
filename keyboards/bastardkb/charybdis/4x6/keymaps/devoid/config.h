@@ -18,7 +18,7 @@
 
 #ifdef VIA_ENABLE
 /* VIA configuration. */
-#    define DYNAMIC_KEYMAP_LAYER_COUNT 4
+#    define DYNAMIC_KEYMAP_LAYER_COUNT 5
 #endif // VIA_ENABLE
 
 #ifndef __arm__
@@ -34,3 +34,9 @@
 // - `CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD`
 // #define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
 #endif // POINTING_DEVICE_ENABLE
+
+
+#define CHARYBDIS_DRAGSCROLL_REVERSE_Y // inverts vertical scrolling
+
+// I am not sure we need this unless we address individual leds or similar
+// #define SPLIT_LAYER_STATE_ENABLE
