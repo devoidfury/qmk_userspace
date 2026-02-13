@@ -39,4 +39,4 @@
 #define CHARYBDIS_DRAGSCROLL_REVERSE_Y // inverts vertical scrolling
 
 // I am not sure we need this unless we address individual leds or similar
-// #define SPLIT_LAYER_STATE_ENABLE
+#define SPLIT_LAYER_STATE_ENABLE
