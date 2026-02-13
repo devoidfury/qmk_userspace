@@ -45,7 +45,7 @@ static uint16_t auto_pointer_layer_timer = 0;
 
 #define LOWER MO(LAYER_LOWER)
 #define RAISE MO(LAYER_RAISE)
-#define POINTER TG(LAYER_POINTER)
+#define POINTER_TG TG(LAYER_POINTER)
 #define DANGER_4 LT(LAYER_DANGER, KC_4)
 #define DANGER_7 LT(LAYER_DANGER, KC_7)
 #define PT_Z LT(LAYER_POINTER, KC_Z)
@@ -75,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        KC_LCTL,    PT_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT, PT_SLSH, KC_LALT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                    KC_LGUI, KC_SPC,   LOWER,      RAISE,  KC_ENT,
-                                           KC_LALT, KC_BSPC,     POINTER
+                                           KC_LALT, KC_BSPC,     POINTER_TG
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -120,7 +120,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
        _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   SNIPING, KC_BTN1, KC_BTN2,    KC_BTN2, KC_BTN1,
-                                           KC_BTN3, DRG_TOG,    _______
+                                           KC_BTN3, DRG_TOG,    POINTER_TG
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
