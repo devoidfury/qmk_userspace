@@ -176,33 +176,32 @@ void rgb_matrix_update_pwm_buffers(void);
 #endif
 
 
-layer_state_t layer_state_set_user(layer_state_t state) {
+// layer_state_t layer_state_set_user(layer_state_t state) {
 
-#ifdef POINTING_DEVICE_ENABLE
-#    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
-    charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
-#    endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
-#endif     // POINTING_DEVICE_ENABLE
+// #ifdef POINTING_DEVICE_ENABLE
+// #    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
+//     charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
+// #    endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
+// #endif     // POINTING_DEVICE_ENABLE
 
-#ifdef RGB_MATRIX_ENABLE
-    switch (get_highest_layer(state)) {
-    case LAYER_RAISE:
-        rgb_matrix_sethsv_noeeprom (HSV_GREEN);
-        break;
-    case LAYER_LOWER:
-        rgb_matrix_sethsv_noeeprom (HSV_GOLD);
-        break;
-    case LAYER_POINTER:
-        rgb_matrix_sethsv_noeeprom (HSV_PURPLE);
-        break;
-    case LAYER_DANGER:
-        rgb_matrix_sethsv_noeeprom (HSV_WHITE);
-        break;
-    default: //  for any other layers, or the default layer
-        rgb_matrix_reload_from_eeprom();
-        break;
-    }
-#endif     // RGB_MATRIX_ENABLE
-
-  return state;
-}
+// #ifdef RGB_MATRIX_ENABLE
+//     switch (get_highest_layer(state)) {
+//     case LAYER_RAISE:
+//         rgb_matrix_sethsv_noeeprom (HSV_GREEN);
+//         break;
+//     case LAYER_LOWER:
+//         rgb_matrix_sethsv_noeeprom (HSV_GOLD);
+//         break;
+//     case LAYER_POINTER:
+//         rgb_matrix_sethsv_noeeprom (HSV_PURPLE);
+//         break;
+//     case LAYER_DANGER:
+//         rgb_matrix_sethsv_noeeprom (HSV_WHITE);
+//         break;
+//     default: //  for any other layers, or the default layer
+//         rgb_matrix_reload_from_eeprom();
+//         break;
+//     }
+// #endif     // RGB_MATRIX_ENABLE
+//   return state;
+// }
