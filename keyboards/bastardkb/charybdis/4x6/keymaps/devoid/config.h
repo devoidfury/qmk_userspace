@@ -26,14 +26,9 @@
 #endif // __arm__
 
 #ifdef POINTING_DEVICE_ENABLE
-// Automatically enable the pointer layer when moving the trackball.  See also:
-// - `CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_TIMEOUT_MS`
-// - `CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_THRESHOLD`
-// #define CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+#   define CHARYBDIS_DRAGSCROLL_REVERSE_Y // inverts vertical scrolling
 #endif // POINTING_DEVICE_ENABLE
 
-
-#define CHARYBDIS_DRAGSCROLL_REVERSE_Y // inverts vertical scrolling
 
 // persist state across both halves
 #define SPLIT_LAYER_STATE_ENABLE
