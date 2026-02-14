@@ -17,4 +17,4 @@ Requires an intentional reach (hold 4/7 key).
 
 ## Layout
 
-![Keymap layout (generated with https://keymap-drawer.streamlit.app/)](./keymap.png)
+![Keymap layout (generated with https://keymap-drawer.streamlit.app/)](./my_keymap.png)
