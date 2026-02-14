@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Charly Delay <charly@codesink.dev> (@0xcharly)
+ * Copyright 2026 Thomas Hunkapiller <tom@furycodes.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -28,7 +28,21 @@ enum charybdis_keymap_layers {
     LAYER_DANGER
 };
 
-/** \brief Automatically enable sniping-mode on the pointer layer. */
+#ifdef RGB_MATRIX_ENABLE
+/** Layers above this one trigger the activity indicators */
+#   define TOP_BASE_LAYER LAYER_BASE
+
+/** layer activity indicators color configuration. See qmk_firmware/quantum/color.h */
+const hsv_t LAYER_INDICATOR_COLORS[] = {
+    [LAYER_BASE] = {HSV_OFF},
+    [LAYER_LOWER] = {HSV_BLUE},
+    [LAYER_RAISE] = {HSV_GREEN},
+    [LAYER_POINTER] = {HSV_PURPLE},
+    [LAYER_DANGER] = {HSV_RED},
+};
+#endif // RGB_MATRIX_ENABLE
+
+/** Automatically enable sniping-mode on the pointer layer. */
 // #define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
 
 #ifdef CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
@@ -127,13 +141,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [LAYER_DANGER] = LAYOUT(
   //                                         👇🏻 from LAYER_BASE DANGER keys   👇🏻
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       XXXXXXX,  XXXXXXX, XXXXXXX, XXXXXXX, _______, XXXXXXX,    XXXXXXX, _______, XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD,
+       _______,  _______, _______, _______, _______, XXXXXXX,    XXXXXXX, _______, XXXXXXX, XXXXXXX, S_D_MOD, DPI_MOD,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RGB_MOD,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_RBT,     QK_RBT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, S_D_MOD,
+       RM_TOGG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_RBT,     QK_RBT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RGB_TOG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       RGB_MOD, RM_SPDU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, RM_HUEU, RM_SATU, RM_VALU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RGB_RMOD,  XXXXXXX, XXXXXXX, XXXXXXX, EE_CLR, QK_BOOT,    QK_BOOT,  EE_CLR, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       RGB_RMOD, RM_SPDD, XXXXXXX, XXXXXXX, EE_CLR, QK_BOOT,    QK_BOOT,  EE_CLR, XXXXXXX, RM_HUED, RM_SATD, RM_VALD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,
                                            XXXXXXX, XXXXXXX,    XXXXXXX
@@ -168,41 +182,54 @@ void matrix_scan_user(void) {
     }
 }
 #    endif // CHARYBDIS_AUTO_POINTER_LAYER_TRIGGER_ENABLE
+
+#    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
+layer_state_t layer_state_set_user(layer_state_t state) {
+    charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
+    return state;
+}
+#    endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
 #endif     // POINTING_DEVICE_ENABLE
 
 #ifdef RGB_MATRIX_ENABLE
 // Forward-declare this helper function since it is defined in rgb_matrix.c.
-void rgb_matrix_update_pwm_buffers(void);
-#endif
+// void rgb_matrix_update_pwm_buffers(void);
+
+bool rgb_matrix_indicators_user(void) {
+    uint8_t const layer = get_highest_layer(layer_state);
+    if (layer > TOP_BASE_LAYER) {
+        hsv_t color = LAYER_INDICATOR_COLORS[layer];
+        if (color.v > rgb_matrix_get_val()) {
+            color.v = rgb_matrix_get_val();
+        }
+        rgb_t rgb_color = hsv_to_rgb(color);
+
+        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+                uint_fast8_t const led = g_led_config.matrix_co[row][col];
+                if (led == NO_LED) {
+                    continue;
+                }
+
+                uint_fast16_t const key = keymap_key_to_keycode(layer, (keypos_t){col, row});
+                switch (key) {
+                    // leave active matrix effect unchanged for transparent/fallthrough keys
+                    case KC_TRNS:
+                        break;
+                    // dark no-op keys
+                    case KC_NO:
+                        rgb_matrix_set_color(led, RGB_OFF);
+                        break;
+                    // show an indicator for the key
+                    default:
+                        rgb_matrix_set_color(led, rgb_color.r, rgb_color.g, rgb_color.b);
+                }
+            }
+        }
+    }
+
+    return false;
+}
 
 
-// layer_state_t layer_state_set_user(layer_state_t state) {
-
-// #ifdef POINTING_DEVICE_ENABLE
-// #    ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
-//     charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
-// #    endif // CHARYBDIS_AUTO_SNIPING_ON_LAYER
-// #endif     // POINTING_DEVICE_ENABLE
-
-// // #ifdef RGB_MATRIX_ENABLE
-// //     switch (get_highest_layer(state)) {
-// //     case LAYER_RAISE:
-// //         rgb_matrix_sethsv_noeeprom (HSV_GREEN);
-// //         break;
-// //     case LAYER_LOWER:
-// //         rgb_matrix_sethsv_noeeprom (HSV_GOLD);
-// //         break;
-// //     case LAYER_POINTER:
-// //         rgb_matrix_sethsv_noeeprom (HSV_PURPLE);
-// //         break;
-// //     case LAYER_DANGER:
-// //         rgb_matrix_sethsv_noeeprom (HSV_WHITE);
-// //         break;
-// //     default: //  for any other layers, or the default layer
-// //         rgb_matrix_reload_from_eeprom();
-// //         break;
-// //     }
-// // #endif     // RGB_MATRIX_ENABLE
-
-//   return state;
-// }
+#endif // RGB_MATRIX_ENABLE

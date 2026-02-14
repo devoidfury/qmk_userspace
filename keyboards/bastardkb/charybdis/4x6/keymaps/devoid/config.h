@@ -1,5 +1,5 @@
 /**
- * Copyright 2021 Charly Delay <charly@codesink.dev> (@0xcharly)
+ * Copyright 2026 Thomas Hunkapiller <tom@furycodes.com>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -17,16 +17,13 @@
 #pragma once
 
 #ifdef VIA_ENABLE
-/* VIA configuration. */
 #    define DYNAMIC_KEYMAP_LAYER_COUNT 5
-#endif // VIA_ENABLE
+#endif
 
 #ifndef __arm__
 /* Disable unused features. */
 #    define NO_ACTION_ONESHOT
 #endif // __arm__
-
-/* Charybdis-specific features. */
 
 #ifdef POINTING_DEVICE_ENABLE
 // Automatically enable the pointer layer when moving the trackball.  See also:
