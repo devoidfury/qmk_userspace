@@ -66,7 +66,7 @@
 /** turns on our layer lighting effect */
 #   define LAYER_INDICATOR_RGB_ENABLE
 /** define this to darken transparent keys on indicator lights instead of showing the active animation. */
-#   define LAYER_INDICATOR_TRANS_DARK
+// #   define LAYER_INDICATOR_TRANS_DARK
 
 
 #endif // RGB_MATRIX_ENABLE
