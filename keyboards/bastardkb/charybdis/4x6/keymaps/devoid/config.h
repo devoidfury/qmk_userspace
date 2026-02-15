@@ -25,11 +25,48 @@
 #    define NO_ACTION_ONESHOT
 #endif // __arm__
 
+
+// ─── Sync-specific features ─────────────────────────────────────────────────
+#ifdef SPLIT_KEYBOARD
+
+// persist state across both halves, required for our fancy lighting
+#   define SPLIT_LAYER_STATE_ENABLE
+
+// enable syncing of the charybdis config, such as to read the sniping or drag scroll modes on the other half
+#   define CHARYBDIS_CONFIG_SYNC
+
+#endif // SPLIT_KEYBOARD
+
+// ─── Pointing device ────────────────────────────────────────────────────────
 #ifdef POINTING_DEVICE_ENABLE
-#   define CHARYBDIS_DRAGSCROLL_REVERSE_Y // inverts vertical scrolling
+
+// auto sniping enabled
+#define AUTO_SNIPING_ENABLED
+
+// inverts vertical scrolling
+#   define CHARYBDIS_DRAGSCROLL_REVERSE_Y
+
+// auto mouse layer
+#define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+// ms auto mouse layer is active
+#define AUTO_MOUSE_TIME 1200
+// amount of mouse movement required to switch layers
+#define AUTO_MOUSE_THRESHOLD 10
+
+#define AUTO_MOUSE_DEBOUNCE 20
+
 #endif // POINTING_DEVICE_ENABLE
 
+// ─── RGB Matrix configuration ───────────────────────────────────────────────
+#ifdef RGB_MATRIX_ENABLE
 
-// persist state across both halves
-#define SPLIT_LAYER_STATE_ENABLE
-#define CHARYBDIS_CONFIG_SYNC
+/** ms before auto-off, requires SPLIT_ACTIVITY_ENABLE to stay in sync across halves */
+#    define RGB_MATRIX_TIMEOUT 900000
+
+/** turns on our layer lighting effect */
+#   define LAYER_INDICATOR_RGB_ENABLE
+/** define this to darken transparent keys on indicator lights instead of showing the active animation. */
+#   define LAYER_INDICATOR_TRANS_DARK
+
+
+#endif // RGB_MATRIX_ENABLE

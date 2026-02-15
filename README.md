@@ -20,3 +20,4 @@ see also
 
 - https://github.com/filterpaper/qmk_userspace
 - https://github.com/darksinge/bastardkb_qmk_userspace
+- https://github.com/NoahCLR/charybdis-4x6/

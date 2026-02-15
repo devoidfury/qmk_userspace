@@ -38,8 +38,14 @@ const hsv_t LAYER_INDICATOR_COLORS[] = {
 };
 #endif // RGB_MATRIX_ENABLE
 
-/** Automatically enable sniping-mode on the pointer layer. */
-#define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
+/** Automatically enable sniping-mode on the given layer. */
+#ifdef AUTO_SNIPING_ENABLED
+#   if defined(POINTING_DEVICE_AUTO_MOUSE_ENABLE)
+#      define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_LOWER
+#   else
+#      define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
+#   endif
+#endif
 
 #define LOWER MO(LAYER_LOWER)
 #define RAISE MO(LAYER_RAISE)
@@ -49,17 +55,6 @@ const hsv_t LAYER_INDICATOR_COLORS[] = {
 #define PT_Z LT(LAYER_POINTER, KC_Z)
 #define PT_SLSH LT(LAYER_POINTER, KC_SLSH)
 
-// these should be no-op keys when pointing device is disabled
-#ifndef POINTING_DEVICE_ENABLE
-#    define DRGSCRL KC_NO
-#    define DPI_MOD KC_NO
-#    define DPI_RMOD KC_NO
-#    define S_D_MOD KC_NO
-#    define S_D_RMOD KC_NO
-#    define SNIPING KC_NO
-#    define DRG_TOG KC_NO
-#    define SNP_TOG KC_NO
-#endif // !POINTING_DEVICE_ENABLE
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
@@ -141,47 +136,103 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-#if defined(POINTING_DEVICE_ENABLE) && defined(CHARYBDIS_AUTO_SNIPING_ON_LAYER)
+#ifdef POINTING_DEVICE_ENABLE
+
+#ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
 layer_state_t layer_state_set_user(layer_state_t state) {
     charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
+
+#    ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+    // Manage Auto Mouse enabling/disabling based on layer to avoid conflicts with sniping
+    uint8_t layer = get_highest_layer(state);
+
+    switch (layer) {
+        case CHARYBDIS_AUTO_SNIPING_ON_LAYER:
+            set_auto_mouse_enable(false); // disable Auto Mouse when in sniping layer
+            break;
+
+        default:
+            set_auto_mouse_enable(true); // enable it again
+            break;
+    }
+#    endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
+
     return state;
 }
 #endif
 
-#ifdef RGB_MATRIX_ENABLE
+
+#    ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
+void pointing_device_init_user(void) {
+    // set default pointer layer
+    set_auto_mouse_layer(LAYER_POINTER);
+    // enable Auto Mouse by default
+    set_auto_mouse_enable(true);
+}
+
+bool is_mouse_record_user(uint16_t keycode, keyrecord_t *record) {
+    // treated as mouse keys (hold target layer while they are pressed and reset active layer timer).
+    switch (keycode) {
+        case SNIPING_MODE:
+        case SNIPING_MODE_TOGGLE:
+        case DRAGSCROLL_MODE:
+        case DRAGSCROLL_MODE_TOGGLE:
+        case DPI_MOD:
+        case DPI_RMOD:
+        case S_D_MOD:
+        case S_D_RMOD:
+            return true;
+    }
+    return false;
+}
+
+#    endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
+
+#endif // POINTING_DEVICE_ENABLE
+
+#ifdef LAYER_INDICATOR_RGB_ENABLE
+
+rgb_t hsv_to_rgb_adjusted_brightness(hsv_t color) {
+    // use the current active rgb val as a cap so the built in rgb brightness controls work
+    uint8_t const val = rgb_matrix_get_val();
+    if (color.v > val) {
+        color.v = val;
+    }
+    return hsv_to_rgb(color);
+}
+
 bool rgb_matrix_indicators_user(void) {
     uint8_t const layer = get_highest_layer(layer_state);
-    if (layer > TOP_BASE_LAYER) {
-        hsv_t color = LAYER_INDICATOR_COLORS[layer];
-        if (color.v > rgb_matrix_get_val()) {
-            color.v = rgb_matrix_get_val();
-        }
-        rgb_t rgb_color = hsv_to_rgb(color);
+    if (layer <= TOP_BASE_LAYER) {
+        return false;
+    }
 
-        for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
-            for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-                uint_fast8_t const led = g_led_config.matrix_co[row][col];
-                if (led == NO_LED) {
-                    continue;
-                }
+    rgb_t const rgb_color = hsv_to_rgb_adjusted_brightness(LAYER_INDICATOR_COLORS[layer]);
 
-                uint_fast16_t const key = keymap_key_to_keycode(layer, (keypos_t){col, row});
-                switch (key) {
-                    // leave active matrix effect unchanged for transparent/fallthrough keys
-                    case KC_TRNS:
-                        break;
-                    // dark no-op keys
-                    case KC_NO:
-                        rgb_matrix_set_color(led, RGB_OFF);
-                        break;
-                    // show an indicator for the key
-                    default:
-                        rgb_matrix_set_color(led, rgb_color.r, rgb_color.g, rgb_color.b);
-                }
+    for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
+        for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
+            uint_fast8_t const led = g_led_config.matrix_co[row][col];
+            if (led == NO_LED) {
+                continue;
+            }
+            uint_fast16_t const key = keymap_key_to_keycode(layer, (keypos_t){col, row});
+            switch (key) {
+                case KC_TRNS:
+#   ifndef LAYER_INDICATOR_TRANS_DARK
+                // leave active matrix effect unchanged for transparent/fallthrough keys
+                    break;
+#   endif
+                // dark no-op keys
+                case KC_NO:
+                    rgb_matrix_set_color(led, RGB_OFF);
+                    break;
+                // show an indicator for the key
+                default:
+                    rgb_matrix_set_color(led, rgb_color.r, rgb_color.g, rgb_color.b);
             }
         }
     }
 
     return false;
 }
-#endif // RGB_MATRIX_ENABLE
+#endif // LAYER_INDICATOR_RGB_ENABLE
