@@ -21,3 +21,8 @@ see also
 - https://github.com/filterpaper/qmk_userspace
 - https://github.com/darksinge/bastardkb_qmk_userspace
 - https://github.com/NoahCLR/charybdis-4x6/
+- https://github.com/tzarc/qmk_userspace
+- https://github.com/drashna/qmk_userspace
+- https://github.com/getreuer/qmk-keymap
+- https://github.com/acmilanfan/qmk_userspace
+
