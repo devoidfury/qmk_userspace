@@ -63,8 +63,8 @@ const hsv_t LAYER_INDICATOR_COLORS[] = {
 
 #define HOME_J RSFT_T(KC_J)
 #define HOME_K RCTL_T(KC_K)
-#define HOME_L RALT_T(KC_L)
-#define HOME_SCLN RGUI_T(KC_SCLN)
+#define HOME_L LALT_T(KC_L)
+#define HOME_SCLN LGUI_T(KC_SCLN)
 
 // clang-format off
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
