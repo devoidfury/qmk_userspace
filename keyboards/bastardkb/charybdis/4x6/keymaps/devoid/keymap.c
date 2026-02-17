@@ -78,8 +78,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        DRGSCRL,    PT_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT,  PT_SLSH, KC_ENT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                   KC_F12, KC_SPC,   LOWER,    RAISE,  KC_ENT,
-                                            KC_DEL, KC_BSPC,    RAISE
+                                   KC_PSCR, KC_SPC,   LOWER,    RAISE,  KC_ENT,
+                                            KC_DEL, KC_BSPC,    DRG_TOG
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -91,7 +91,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, _______, _______, _______, XXXXXXX,    KC_PPLS,   KC_P4,   KC_P5,   KC_P6, KC_PMNS, KC_PEQL,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_PAST,   KC_P1,   KC_P2,   KC_P3, KC_PSLS, KC_PDOT,
+       _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_PAST,   KC_P1,   KC_P2,   KC_P3, KC_PSLS, KC_PDOT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   _______, _______, _______,    XXXXXXX, _______,
                                            _______, _______,      KC_P0
@@ -123,8 +123,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                  KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN1, _______,
-                                           SNIPING, _______,    _______
+                                  KC_BTN2, KC_BTN1, KC_BTN3,    _______, _______,
+                                           SNIPING, _______,    KC_BTN1
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -184,9 +184,9 @@ bool is_mouse_record_user(uint16_t keycode, keyrecord_t *record) {
     // treated as mouse keys (hold target layer while they are pressed and reset active layer timer).
     switch (keycode) {
         case SNIPING_MODE:
-        case SNIPING_MODE_TOGGLE:
+        // case SNIPING_MODE_TOGGLE:
         case DRAGSCROLL_MODE:
-        case DRAGSCROLL_MODE_TOGGLE:
+        // case DRAGSCROLL_MODE_TOGGLE:
         case DPI_MOD:
         case DPI_RMOD:
         case S_D_MOD:
