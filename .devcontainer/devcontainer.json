@@ -17,7 +17,12 @@
             ]
         }
     },
-    "postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/setup.sh ${containerWorkspaceFolder}"
+    "postCreateCommand": "${containerWorkspaceFolder}/.devcontainer/setup.sh ${containerWorkspaceFolder}",
+
+    "containerEnv": {
+        "QMK_REPO": "https://github.com/Bastardkb/bastardkb-qmk.git",
+        "QMK_REF": "bkb-master"
+    }
 
     // Features to add to the dev container. More info: https://containers.dev/features.
     // "features": {},

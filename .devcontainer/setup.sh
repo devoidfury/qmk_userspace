@@ -14,7 +14,7 @@ userspacePath="$1"
 git config --global --add safe.directory "$userspacePath"
 git submodule update --init --recursive
 
-[ -d /workspaces/qmk_firmware ] || git clone -b bkb-master https://github.com/Bastardkb/bastardkb-qmk.git /workspaces/qmk_firmware
+[ -d /workspaces/qmk_firmware ] || git clone -b $QMK_REF $QMK_REPO /workspaces/qmk_firmware
 git config --global --add safe.directory /workspaces/qmk_firmware
 
 qmk config user.qmk_home=/workspaces/qmk_firmware
