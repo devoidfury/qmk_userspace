@@ -123,8 +123,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                  KC_BTN2, KC_BTN1, KC_BTN3,    _______, _______,
-                                           SNIPING, _______,    KC_BTN1
+                                  MS_BTN2, MS_BTN1, MS_BTN3,    _______, _______,
+                                           SNIPING, _______,    MS_BTN1
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -135,9 +135,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        RM_TOGG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_RBT,     QK_RBT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RGB_MOD, RM_SPDU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, RM_HUEU, RM_SATU, RM_VALU,
+       RM_NEXT, RM_SPDU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, RM_HUEU, RM_SATU, RM_VALU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RGB_RMOD, RM_SPDD, XXXXXXX, XXXXXXX, EE_CLR, QK_BOOT,    QK_BOOT,  EE_CLR, XXXXXXX, RM_HUED, RM_SATD, RM_VALD,
+       RM_PREV, RM_SPDD, XXXXXXX, XXXXXXX, EE_CLR, QK_BOOT,    QK_BOOT,  EE_CLR, XXXXXXX, RM_HUED, RM_SATD, RM_VALD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,
                                            XXXXXXX, XXXXXXX,    XXXXXXX
