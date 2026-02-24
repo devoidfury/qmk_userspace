@@ -24,32 +24,14 @@ enum charybdis_keymap_layers {
     LAYER_DANGER
 };
 
-#ifdef RGB_MATRIX_ENABLE
-/** Layers above this one trigger the activity indicators */
-#   define TOP_BASE_LAYER LAYER_BASE
+#include "rgb_indicators.c"
+#include "pointing.c"
+#include "leader_key.c"
 
-/** layer activity indicators color configuration. See qmk_firmware/quantum/color.h */
-const hsv_t LAYER_INDICATOR_COLORS[] = {
-    [LAYER_BASE] = {HSV_OFF},
-    [LAYER_LOWER] = {HSV_BLUE},
-    [LAYER_RAISE] = {HSV_GREEN},
-    [LAYER_POINTER] = {HSV_PURPLE},
-    [LAYER_DANGER] = {HSV_RED},
-};
-#endif // RGB_MATRIX_ENABLE
-
-/** Automatically enable sniping-mode on the given layer. */
-#ifdef AUTO_SNIPING_ENABLED
-#   if defined(POINTING_DEVICE_AUTO_MOUSE_ENABLE)
-#      define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_LOWER
-#   else
-#      define CHARYBDIS_AUTO_SNIPING_ON_LAYER LAYER_POINTER
-#   endif
-#endif
 
 #define LOWER MO(LAYER_LOWER)
+// #define LOWER LT(LAYER_LOWER, KC_SPC)
 #define RAISE MO(LAYER_RAISE)
-#define POINTER_TG TG(LAYER_POINTER)
 #define DANGER_4 LT(LAYER_DANGER, KC_4)
 #define DANGER_7 LT(LAYER_DANGER, KC_7)
 #define PT_Z LT(LAYER_POINTER, KC_Z)
@@ -78,8 +60,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        DRGSCRL,    PT_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT,  PT_SLSH, KC_ENT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                   KC_PSCR, KC_SPC,   LOWER,    RAISE,  KC_ENT,
-                                            KC_DEL, KC_BSPC,    DRG_TOG
+                                   MS_BTN2, KC_SPC,   LOWER,    RAISE,  KC_ENT,
+                                           MS_BTN1,  KC_BSPC,   KC_SCRL_FN
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -93,7 +75,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    KC_PAST,   KC_P1,   KC_P2,   KC_P3, KC_PSLS, KC_PDOT,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                  _______, _______, _______,    XXXXXXX, _______,
+                                  KC_PSCR, _______, _______,    XXXXXXX, _______,
                                            _______, _______,      KC_P0
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
@@ -102,11 +84,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
         KC_F12,   KC_F1,   KC_F2,   KC_F3,   KC_F4,   KC_F5,      KC_F6,   KC_F7,   KC_F8,   KC_F9,  KC_F10,  KC_F11,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_MNXT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT, KC_VOLU,
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT, KC_VOLU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_MPLY, KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_LALT, KC_LGUI, KC_MUTE,
+       XXXXXXX, KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_LALT, KC_LGUI, KC_MUTE,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       KC_MPRV, KC_HOME, KC_PGUP, KC_PGDN,  KC_END, KC_BSPC,    KC_DEL, XXXXXXX, XXXXXXX, KC_RALT, KC_RGUI, KC_VOLD,
+       XXXXXXX, KC_HOME, KC_PGUP, KC_PGDN,  KC_END, KC_BSPC,    KC_DEL, XXXXXXX, XXXXXXX, KC_RALT, KC_RGUI, KC_VOLD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   _______, _______, XXXXXXX,    _______, KC_MPLY,
                                            _______, _______,    _______
@@ -123,8 +105,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                  MS_BTN2, MS_BTN1, MS_BTN3,    _______, _______,
-                                           SNIPING, _______,    MS_BTN1
+                                  MS_BTN2, _______, _______,    _______, _______,
+                                           MS_BTN1, MS_BTN3,    MS_BTN1
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -146,103 +128,4 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 // clang-format on
 
-#ifdef POINTING_DEVICE_ENABLE
 
-#ifdef CHARYBDIS_AUTO_SNIPING_ON_LAYER
-layer_state_t layer_state_set_user(layer_state_t state) {
-    charybdis_set_pointer_sniping_enabled(layer_state_cmp(state, CHARYBDIS_AUTO_SNIPING_ON_LAYER));
-
-#    ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-    // Manage Auto Mouse enabling/disabling based on layer to avoid conflicts with sniping
-    uint8_t layer = get_highest_layer(state);
-
-    switch (layer) {
-        case CHARYBDIS_AUTO_SNIPING_ON_LAYER:
-            set_auto_mouse_enable(false); // disable Auto Mouse when in sniping layer
-            break;
-
-        default:
-            set_auto_mouse_enable(true); // enable it again
-            break;
-    }
-#    endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
-
-    return state;
-}
-#endif
-
-
-#    ifdef POINTING_DEVICE_AUTO_MOUSE_ENABLE
-void pointing_device_init_user(void) {
-    // set default pointer layer
-    set_auto_mouse_layer(LAYER_POINTER);
-    // enable Auto Mouse by default
-    set_auto_mouse_enable(true);
-}
-
-bool is_mouse_record_user(uint16_t keycode, keyrecord_t *record) {
-    // treated as mouse keys (hold target layer while they are pressed and reset active layer timer).
-    switch (keycode) {
-        case SNIPING_MODE:
-        // case SNIPING_MODE_TOGGLE:
-        case DRAGSCROLL_MODE:
-        // case DRAGSCROLL_MODE_TOGGLE:
-        case DPI_MOD:
-        case DPI_RMOD:
-        case S_D_MOD:
-        case S_D_RMOD:
-            return true;
-    }
-    return false;
-}
-
-#    endif // POINTING_DEVICE_AUTO_MOUSE_ENABLE
-
-#endif // POINTING_DEVICE_ENABLE
-
-#ifdef LAYER_INDICATOR_RGB_ENABLE
-
-rgb_t hsv_to_rgb_adjusted_brightness(hsv_t color) {
-    // use the current active rgb val as a cap so the built in rgb brightness controls work
-    uint8_t const val = rgb_matrix_get_val();
-    if (color.v > val) {
-        color.v = val;
-    }
-    return hsv_to_rgb(color);
-}
-
-bool rgb_matrix_indicators_user(void) {
-    uint8_t const layer = get_highest_layer(layer_state);
-    if (layer <= TOP_BASE_LAYER) {
-        return false;
-    }
-
-    rgb_t const rgb_color = hsv_to_rgb_adjusted_brightness(LAYER_INDICATOR_COLORS[layer]);
-
-    for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
-        for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-            uint_fast8_t const led = g_led_config.matrix_co[row][col];
-            if (led == NO_LED) {
-                continue;
-            }
-            uint_fast16_t const key = keymap_key_to_keycode(layer, (keypos_t){col, row});
-            switch (key) {
-                case KC_TRNS:
-#   ifndef LAYER_INDICATOR_TRANS_DARK
-                // leave active matrix effect unchanged for transparent/fallthrough keys
-                    break;
-#   endif
-                // dark no-op keys
-                case KC_NO:
-                    rgb_matrix_set_color(led, RGB_OFF);
-                    break;
-                // show an indicator for the key
-                default:
-                    rgb_matrix_set_color(led, rgb_color.r, rgb_color.g, rgb_color.b);
-            }
-        }
-    }
-
-    return false;
-}
-#endif // LAYER_INDICATOR_RGB_ENABLE
