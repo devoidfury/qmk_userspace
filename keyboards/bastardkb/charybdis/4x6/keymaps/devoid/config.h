@@ -56,7 +56,7 @@
 #define AUTO_MOUSE_TIME 1200
 
 // amount of mouse movement required to switch layers
-#define AUTO_MOUSE_THRESHOLD 10
+#define AUTO_MOUSE_THRESHOLD 4
 
 #define AUTO_MOUSE_DEBOUNCE 20
 

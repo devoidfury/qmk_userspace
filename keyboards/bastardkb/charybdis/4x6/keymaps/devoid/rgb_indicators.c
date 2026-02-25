@@ -23,7 +23,7 @@ rgb_t hsv_to_rgb_adjusted_brightness(hsv_t color) {
     return hsv_to_rgb(color);
 }
 
-bool rgb_matrix_indicators_user(void) {
+bool rgb_matrix_indicators_advanced_user(uint8_t led_min, uint8_t led_max) {
     uint8_t const layer = get_highest_layer(layer_state);
     if (layer <= TOP_BASE_LAYER) {
         return false;
@@ -34,10 +34,10 @@ bool rgb_matrix_indicators_user(void) {
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
         for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
             uint8_t const led = g_led_config.matrix_co[row][col];
-            if (led == NO_LED) {
+            if (led == NO_LED || led < led_min || led >= led_max) {
                 continue;
             }
-            uint16_t const key = keymap_key_to_keycode(layer, (keypos_t){col, row});
+            uint16_t const key = keymap_key_to_keycode(layer, MAKE_KEYPOS(row, col));
             switch (key) {
                 case KC_TRNS:
 #   ifndef LAYER_INDICATOR_TRANS_DARK
@@ -57,4 +57,6 @@ bool rgb_matrix_indicators_user(void) {
 
     return false;
 }
+
+
 #endif // LAYER_INDICATOR_RGB_ENABLE
