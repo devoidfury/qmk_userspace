@@ -33,11 +33,11 @@ bool rgb_matrix_indicators_user(void) {
 
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
         for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
-            uint_fast8_t const led = g_led_config.matrix_co[row][col];
+            uint8_t const led = g_led_config.matrix_co[row][col];
             if (led == NO_LED) {
                 continue;
             }
-            uint_fast16_t const key = keymap_key_to_keycode(layer, (keypos_t){col, row});
+            uint16_t const key = keymap_key_to_keycode(layer, (keypos_t){col, row});
             switch (key) {
                 case KC_TRNS:
 #   ifndef LAYER_INDICATOR_TRANS_DARK
