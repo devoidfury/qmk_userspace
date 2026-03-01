@@ -1,24 +1,34 @@
 
 
-GENERATED_VERSIONS_FILE = $(INTERMEDIATE_OUTPUT)/src/version_git.h
+GIT_VERSIONS_FILE = $(INTERMEDIATE_OUTPUT)/src/version_git.h
 
-LOCAL_BRANCH = $(shell git -C "$(TOP_DIR)" name-rev --name-only HEAD)
-QMK_REMOTE = $(shell git -C "$(TOP_DIR)" config branch.$(LOCAL_BRANCH).remote)
+define git-qmk =
+git -C "$(TOP_DIR)"
+endef
 
-USERSPACE_BRANCH = $(shell git -C "$(QMK_USERSPACE)" name-rev --name-only HEAD)
-USERSPACE_REMOTE = $(shell git -C "$(QMK_USERSPACE)" config branch.$(USERSPACE_BRANCH).remote)
+define git-user =
+git -C "$(QMK_USERSPACE)"
+endef
 
-$(GENERATED_VERSIONS_FILE):
-	echo "#pragma once" > $(GENERATED_VERSIONS_FILE)
-	echo "#define QMK_COMMIT \"$$(git -C "$(TOP_DIR)" rev-parse --short HEAD)$$(git -C "$(TOP_DIR)" diff --quiet || echo "*" )\"" >> $(GENERATED_VERSIONS_FILE)
-	echo "#define QMK_BRANCH \"$$(git -C "$(TOP_DIR)" config branch.$(LOCAL_BRANCH).merge)\"" >> $(GENERATED_VERSIONS_FILE)
-	echo "#define QMK_REMOTE \"$(QMK_REMOTE)\"" >> $(GENERATED_VERSIONS_FILE)
-	echo "#define QMK_REMOTE_URL \"$$(git -C "$(TOP_DIR)" config remote.$(QMK_REMOTE).url)\"" >> $(GENERATED_VERSIONS_FILE)
-	echo "#define USERSPACE_COMMIT \"$$(git -C "$(QMK_USERSPACE)" rev-parse --short HEAD)$$(git -C "$(QMK_USERSPACE)" diff --quiet || echo "*" )\"" >> $(GENERATED_VERSIONS_FILE)
-	echo "#define USERSPACE_BRANCH \"$$(git -C "$(QMK_USERSPACE)" config branch.$(USERSPACE_BRANCH).merge)\"" >> $(GENERATED_VERSIONS_FILE)
-	echo "#define USERSPACE_REMOTE \"$(USERSPACE_REMOTE)\"" >> $(GENERATED_VERSIONS_FILE)
-	echo "#define USERSPACE_REMOTE_URL \"$$(git -C "$(QMK_USERSPACE)" config remote.$(USERSPACE_REMOTE).url)\"" >> $(GENERATED_VERSIONS_FILE)
+define clean-url
+sed -e 's%git@\|https\?://%%' -e 's/.git$$//' -e 's%:%/%'
+endef
 
-generated-files: $(GENERATED_VERSIONS_FILE)
+LOCAL_BRANCH = $(shell $(git-qmk) name-rev --name-only HEAD)
+QMK_REMOTE = $(shell $(git-qmk) config branch.$(LOCAL_BRANCH).remote)
 
-POST_CONFIG_H += $(GENERATED_VERSIONS_FILE)
+USERSPACE_BRANCH = $(shell $(git-user) name-rev --name-only HEAD)
+USERSPACE_REMOTE = $(shell $(git-user) config branch.$(USERSPACE_BRANCH).remote)
+
+$(GIT_VERSIONS_FILE):
+	echo "#pragma once" > $(GIT_VERSIONS_FILE)
+	echo "#define QMK_COMMIT \"$$($(git-qmk) rev-parse --short HEAD)$$($(git-qmk) diff --quiet || echo "*" )\"" >> $(GIT_VERSIONS_FILE)
+	echo "#define QMK_BRANCH \"$$($(git-qmk) config branch.$(LOCAL_BRANCH).merge | sed 's%refs/heads/%%' )\"" >> $(GIT_VERSIONS_FILE)
+	echo "#define QMK_REMOTE_URL \"$$($(git-qmk) config remote.$(QMK_REMOTE).url | $(clean-url) )\"" >> $(GIT_VERSIONS_FILE)
+	echo "#define USERSPACE_COMMIT \"$$($(git-user) rev-parse --short HEAD)$$($(git-user) diff --quiet || echo "*" )\"" >> $(GIT_VERSIONS_FILE)
+	echo "#define USERSPACE_BRANCH \"$$($(git-user) config branch.$(USERSPACE_BRANCH).merge | sed 's%refs/heads/%%' )\"" >> $(GIT_VERSIONS_FILE)
+	echo "#define USERSPACE_REMOTE_URL \"$$($(git-user) config remote.$(USERSPACE_REMOTE).url | $(clean-url) )\"" >> $(GIT_VERSIONS_FILE)
+
+generated-files: $(GIT_VERSIONS_FILE)
+
+POST_CONFIG_H += $(GIT_VERSIONS_FILE)

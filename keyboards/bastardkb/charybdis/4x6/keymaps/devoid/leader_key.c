@@ -16,8 +16,8 @@ void leader_end_user(void) {
     if (leader_sequence_one_key(KC_V)) {
         // leader, v - qmk-firmware version info
         SEND_STRING(
-            "QMK " QMK_REMOTE_URL "/" QMK_BRANCH "@" QMK_COMMIT "\n"
-            USERSPACE_REMOTE_URL "/" USERSPACE_BRANCH "@" USERSPACE_COMMIT "\n"
+            "QMK " QMK_REMOTE_URL ">" QMK_BRANCH "@" QMK_COMMIT "\n"
+            USERSPACE_REMOTE_URL ">" USERSPACE_BRANCH "@" USERSPACE_COMMIT "\n"
             "Compiled " QMK_BUILDDATE
         );
     } else if (leader_sequence_one_key(0)) {
