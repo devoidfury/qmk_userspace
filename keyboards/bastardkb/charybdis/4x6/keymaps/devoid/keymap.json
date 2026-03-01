@@ -1,5 +1,6 @@
 {
     "modules": [
-        "devoidfury/version_git"
+        "devoidfury/version_git",
+        "devoidfury/layer_colors"
     ]
 }

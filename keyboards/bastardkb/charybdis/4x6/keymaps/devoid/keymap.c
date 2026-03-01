@@ -24,9 +24,24 @@ enum keymap_layers {
     LAYER_DANGER
 };
 
-#include "rgb_indicators.c"
 #include "pointing.c"
 #include "leader_key.c"
+
+
+// Layers above this one trigger the activity indicators
+#define TOP_BASE_LAYER LAYER_BASE
+
+/** layer activity indicators color configuration. See qmk_firmware/quantum/color.h */
+static const hsv_t LAYER_INDICATOR_COLORS[] = {
+    [LAYER_LOWER] = {HSV_BLUE},
+    [LAYER_RAISE] = {HSV_GREEN},
+    [LAYER_POINTER] = {HSV_PURPLE},
+    [LAYER_DANGER] = {HSV_RED},
+};
+
+hsv_t get_color_for_layer(uint8_t layer) {
+    return LAYER_INDICATOR_COLORS[layer];
+}
 
 
 #define LOWER MO(LAYER_LOWER)

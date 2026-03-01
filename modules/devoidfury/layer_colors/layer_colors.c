@@ -1,17 +1,24 @@
 #ifdef LAYER_INDICATOR_RGB_ENABLE
 
+#include "quantum.h"
+#include "color.h"
 
-/** Layers above this one trigger the activity indicators */
-#define TOP_BASE_LAYER LAYER_BASE
+// some default colors
+__attribute__((weak)) hsv_t get_color_for_layer(uint8_t layer) {
+    static const hsv_t LAYER_COLORS[] = {
+        {HSV_ORANGE},
+        {HSV_RED},
+        {HSV_GREEN},
+        {HSV_YELLOW},
+        {HSV_PURPLE},
+        {HSV_BLUE},
+    };
+    return LAYER_COLORS[layer % (sizeof(LAYER_COLORS)/sizeof(LAYER_COLORS[0]))];
+}
 
-/** layer activity indicators color configuration. See qmk_firmware/quantum/color.h */
-const hsv_t LAYER_INDICATOR_COLORS[] = {
-    [LAYER_BASE] = {HSV_OFF},
-    [LAYER_LOWER] = {HSV_BLUE},
-    [LAYER_RAISE] = {HSV_GREEN},
-    [LAYER_POINTER] = {HSV_PURPLE},
-    [LAYER_DANGER] = {HSV_RED},
-};
+#ifndef TOP_BASE_LAYER
+#   define TOP_BASE_LAYER 0
+#endif
 
 
 rgb_t hsv_to_rgb_adjusted_brightness(hsv_t color) {
@@ -23,7 +30,7 @@ rgb_t hsv_to_rgb_adjusted_brightness(hsv_t color) {
     return hsv_to_rgb(color);
 }
 
-bool rgb_matrix_indicators_user(void) {
+bool rgb_matrix_indicators_layer_colors(void) {
     uint8_t const layer = get_highest_layer(layer_state);
     if (layer <= TOP_BASE_LAYER) {
         return false;
@@ -44,7 +51,7 @@ bool rgb_matrix_indicators_user(void) {
     }
 #endif
 
-    rgb_t const rgb_color = hsv_to_rgb_adjusted_brightness(LAYER_INDICATOR_COLORS[layer]);
+    rgb_t const rgb_color = hsv_to_rgb_adjusted_brightness(get_color_for_layer(layer));
 
     for (uint8_t row = 0; row < MATRIX_ROWS; ++row) {
         for (uint8_t col = 0; col < MATRIX_COLS; ++col) {
