@@ -1,4 +1,8 @@
 {
     "maintainer": "devoidfury",
-    "module_name": "layer_colors"
+    "module_name": "layer_colors",
+    "license": "MIT",
+    "features": {
+        "rgb_matrix": true
+    }
 }
