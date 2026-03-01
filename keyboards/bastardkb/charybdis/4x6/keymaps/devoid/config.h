@@ -53,7 +53,7 @@
 #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
 
 // ms auto mouse layer is active
-#define AUTO_MOUSE_TIME 1200
+#define AUTO_MOUSE_TIME 1140
 
 // amount of mouse movement required to switch layers
 #define AUTO_MOUSE_THRESHOLD 4
@@ -79,6 +79,5 @@
 
 /** define this to darken transparent keys on indicator lights instead of showing the active animation. */
 // #define LAYER_INDICATOR_TRANS_DARK
-
 
 #endif // RGB_MATRIX_ENABLE

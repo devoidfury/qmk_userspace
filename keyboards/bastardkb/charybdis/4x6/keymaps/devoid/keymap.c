@@ -16,7 +16,7 @@
  */
 #include QMK_KEYBOARD_H
 
-enum charybdis_keymap_layers {
+enum keymap_layers {
     LAYER_BASE = 0,
     LAYER_LOWER,
     LAYER_RAISE,
@@ -97,7 +97,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [LAYER_POINTER] = LAYOUT(
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-       _______, _______, _______, _______, MS_BTN3, _______,    _______, _______, _______, _______, _______, _______,
+       _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
@@ -105,21 +105,21 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                  MS_BTN2, MS_BTN1, _______,    MS_BTN2, _______,
+                                  MS_BTN2, MS_BTN1, _______,    _______, _______,
                                            MS_BTN3, _______,    MS_BTN1
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
   [LAYER_DANGER] = LAYOUT(
-  //                                         👇🏻 from LAYER_BASE DANGER keys   👇🏻
+  //                                         ↓ from LAYER_BASE DANGER keys   ↓
   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
        _______,  _______, _______, _______, _______, XXXXXXX,    XXXXXXX, _______, XXXXXXX, XXXXXXX, S_D_MOD, DPI_MOD,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RM_TOGG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, QK_RBT,     QK_RBT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+       RM_TOGG,  XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,  QK_RBT,     QK_RBT, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RM_NEXT, RM_SPDU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, RM_HUEU, RM_SATU, RM_VALU,
+       RM_NEXT,  RM_SPDU, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, RM_HUEU, RM_SATU, RM_VALU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       RM_PREV, RM_SPDD, XXXXXXX, XXXXXXX, EE_CLR, QK_BOOT,    QK_BOOT,  EE_CLR, XXXXXXX, RM_HUED, RM_SATD, RM_VALD,
+       RM_PREV,  RM_SPDD, XXXXXXX, XXXXXXX,  EE_CLR, QK_BOOT,    QK_BOOT,  EE_CLR, XXXXXXX, RM_HUED, RM_SATD, RM_VALD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX,
                                            XXXXXXX, XXXXXXX,    XXXXXXX
