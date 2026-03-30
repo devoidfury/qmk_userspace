@@ -49,9 +49,6 @@ hsv_t get_color_for_layer(uint8_t layer) {
 #define RAISE MO(LAYER_RAISE)
 #define DANGER_4 LT(LAYER_DANGER, KC_4)
 #define DANGER_7 LT(LAYER_DANGER, KC_7)
-#define PT_Z LT(LAYER_POINTER, KC_Z)
-#define PT_SLSH LT(LAYER_POINTER, KC_SLSH)
-
 
 #define HOME_A LGUI_T(KC_A)
 #define HOME_S LALT_T(KC_S)
@@ -73,10 +70,10 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
         KC_TAB,  HOME_A,  HOME_S,  HOME_D,  HOME_F,    KC_G,       KC_H,  HOME_J,  HOME_K,  HOME_L,HOME_SCLN, KC_QUOT,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       DRGSCRL,    PT_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT,  PT_SLSH, KC_DEL,
+       DRGSCRL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT,  KC_SLSH, KC_DEL,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                  XXXXXXX, KC_SPC,   LOWER,    RAISE,  KC_ENT,
-                                           XXXXXXX,  KC_BSPC,   KC_SCRL_FN
+                                  MS_BTN2, KC_SPC,   LOWER,        RAISE,  KC_ENT,
+                                           MS_BTN1,  KC_BSPC,   KC_SCRL_FN
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
@@ -101,9 +98,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT, KC_VOLU,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_LALT, KC_LGUI, KC_MUTE,
+       KC_MNXT, KC_LEFT,   KC_UP, KC_DOWN, KC_RGHT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_LALT, KC_LGUI, KC_MUTE,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       XXXXXXX, KC_HOME, KC_PGUP, KC_PGDN,  KC_END, KC_BSPC,    KC_DEL, XXXXXXX, XXXXXXX, KC_RALT, KC_RGUI, KC_VOLD,
+       KC_MPRV, KC_HOME, KC_PGUP, KC_PGDN,  KC_END, KC_BSPC,    KC_DEL, XXXXXXX, XXXXXXX, KC_RALT, KC_RGUI, KC_VOLD,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                                   _______, _______, XXXXXXX,    _______, KC_MPLY,
                                            _______, _______,    _______
@@ -120,8 +117,8 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
        _______, _______, _______, _______, _______, _______,    _______, _______, _______, _______, _______, _______,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-                                  MS_BTN2, MS_BTN1, _______,    _______, _______,
-                                           MS_BTN3, _______,    MS_BTN1
+                                  MS_BTN2, _______, _______,    _______, _______,
+                                           MS_BTN1, _______,    MS_BTN1
   //                            ╰───────────────────────────╯ ╰──────────────────╯
   ),
 
