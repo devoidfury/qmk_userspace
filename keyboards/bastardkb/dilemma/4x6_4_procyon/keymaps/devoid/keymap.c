@@ -21,7 +21,7 @@ enum keymap_layers {
     LAYER_BASE = 0,
     LAYER_LOWER,
     LAYER_RAISE,
-    // LAYER_POINTER,
+    LAYER_POINTER,
     LAYER_DANGER
 };
 
@@ -57,6 +57,7 @@ enum keymap_layers {
 #define LOWER MO(LAYER_LOWER)
 // #define LOWER LT(LAYER_LOWER, KC_SPC)
 #define RAISE MO(LAYER_RAISE)
+#define POINTER MO(LAYER_POINTER)
 #define DANGER_4 LT(LAYER_DANGER, KC_4)
 #define DANGER_7 LT(LAYER_DANGER, KC_7)
 
@@ -81,7 +82,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
         KC_TAB,  HOME_A,  HOME_S,  HOME_D,  HOME_F,    KC_G,       KC_H,  HOME_J,  HOME_K,  HOME_L,HOME_SCLN, KC_QUOT,
   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-       DRGSCRL,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT,  KC_SLSH, KC_DEL,
+       POINTER,    KC_Z,    KC_X,    KC_C,    KC_V,    KC_B,       KC_N,    KC_M, KC_COMM,  KC_DOT,  KC_SLSH, KC_DEL,
   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
                          XXXXXXX, KC_BSPC,  KC_SPC,   LOWER,      RAISE,  XXXXXXX,  KC_ENT, KC_SCRL_FN
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
@@ -115,19 +116,19 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
   ),
 
-//   [LAYER_POINTER] = LAYOUT(
-//   // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
-//        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-//        XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD,    S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
-//   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-//        XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX,
-//   // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
-//        XXXXXXX, _______, DRGSCRL, SNIPING, EE_CLR,  QK_BOOT,    QK_BOOT, EE_CLR,  SNIPING, DRGSCRL, _______, XXXXXXX,
-//   // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
-//                          XXXXXXX, KC_BTN2, KC_BTN1, KC_BTN3,    KC_BTN3, KC_BTN1, KC_BTN2, XXXXXXX
-//   //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
-//   ),
+  [LAYER_POINTER] = LAYOUT(
+  // ╭──────────────────────────────────────────────────────╮ ╭──────────────────────────────────────────────────────╮
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,    XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+       XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX, DPI_MOD, S_D_MOD,    S_D_MOD, DPI_MOD, XXXXXXX, XXXXXXX, XXXXXXX, XXXXXXX,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+       XXXXXXX, KC_LGUI, KC_LALT, KC_LCTL, KC_LSFT, XXXXXXX,    XXXXXXX, KC_RSFT, KC_RCTL, KC_RALT, KC_RGUI, XXXXXXX,
+  // ├──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────┤
+       _______, _______, DRGSCRL, SNIPING, _______,  _______,    _______, _______,  SNIPING, DRGSCRL, _______, XXXXXXX,
+  // ╰──────────────────────────────────────────────────────┤ ├──────────────────────────────────────────────────────╯
+                         XXXXXXX, MS_BTN2, MS_BTN1, MS_BTN3,    MS_BTN3, MS_BTN1, MS_BTN2, XXXXXXX
+  //                    ╰───────────────────────────────────╯ ╰───────────────────────────────────╯
+  ),
 
   [LAYER_DANGER] = LAYOUT(
   //                                         ↓ from LAYER_BASE DANGER keys   ↓
