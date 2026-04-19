@@ -1,6 +1,7 @@
 {
     "userspace_version": "1.0",
     "build_targets": [
-        ["bastardkb/charybdis/4x6", "devoid"]
+        ["bastardkb/charybdis/4x6", "devoid"],
+        ["bastardkb/dilemma/4x6_4_procyon", "devoid"]
     ]
 }

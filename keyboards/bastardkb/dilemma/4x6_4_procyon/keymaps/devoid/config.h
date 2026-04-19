@@ -1,0 +1,70 @@
+/**
+ * Copyright 2026 Thomas Hunkapiller <tom@furycodes.com>
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+#pragma once
+
+#define DYNAMIC_KEYMAP_LAYER_COUNT 8
+#define ENCODER_RESOLUTION 4
+
+
+// ─── Sync-specific features ─────────────────────────────────────────────────
+#ifdef SPLIT_KEYBOARD
+
+// persist state across both halves, required for our fancy lighting
+#define SPLIT_LAYER_STATE_ENABLE
+
+// required for RGB_MATRIX_TIMEOUT to work correctly on both halves
+#define SPLIT_ACTIVITY_ENABLE
+#define SPLIT_LED_STATE_ENABLE
+
+#endif // SPLIT_KEYBOARD
+
+
+// ─── Pointing device ────────────────────────────────────────────────────────
+#ifdef POINTING_DEVICE_ENABLE
+
+// auto sniping enabled
+// #define AUTO_SNIPING_ENABLED
+
+// inverts vertical scrolling
+#define DILEMMA_DRAGSCROLL_REVERSE_Y
+
+// enable auto mouse layer
+// #define POINTING_DEVICE_AUTO_MOUSE_ENABLE
+
+// ms auto mouse layer is active
+// #define AUTO_MOUSE_TIME 1140
+
+// amount of mouse movement required to switch layers
+// #define AUTO_MOUSE_THRESHOLD 4
+
+// #define AUTO_MOUSE_DEBOUNCE 20
+
+#endif // POINTING_DEVICE_ENABLE
+
+// ─── RGB Matrix configuration ───────────────────────────────────────────────
+#ifdef RGB_MATRIX_ENABLE
+
+/** ms before auto-off, requires SPLIT_ACTIVITY_ENABLE to stay in sync across halves */
+#define RGB_MATRIX_TIMEOUT 900000
+
+/** turns on our layer lighting effect */
+#define LAYER_INDICATOR_RGB_ENABLE
+
+/** define this to darken transparent keys on indicator lights instead of showing the active animation. */
+// #define LAYER_INDICATOR_TRANS_DARK
+
+#endif // RGB_MATRIX_ENABLE

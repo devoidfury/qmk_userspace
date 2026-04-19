@@ -9,10 +9,15 @@ Maintained keyboards/layouts in this repo:
 
 [charybdis/4x6/keymaps/devoid](./keyboards/bastardkb/charybdis/4x6/keymaps/devoid/readme.md)
 
+[dilemma/4x6_4/keymaps](./keyboards/bastardkb/dilemma/4x6_4_procyon/keymaps/devoid/readme.md)
+
 
 ```
 qmk lint -kb bastardkb/charybdis/4x6 -km devoid
 qmk compile -c -kb bastardkb/charybdis/4x6 -km devoid
+
+qmk lint -kb bastardkb/dilemma/4x6_4_procyon -km devoid
+qmk compile -c -kb bastardkb/dilemma/4x6_4_procyon -km devoid
 ```
 
 
